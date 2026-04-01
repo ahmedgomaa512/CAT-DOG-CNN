@@ -1,32 +1,28 @@
 import streamlit as st
-import numpy as np
 from tensorflow.keras.models import load_model
 from PIL import Image
+import numpy as np
+import os
 
-st.title("🐱 Cat vs Dog Classifier")
+# Load model
+MODEL_PATH = os.path.join("model", "cat_dog_model.keras")
+model = load_model(MODEL_PATH)
+classes = ["Cat", "Dog"]
 
-@st.cache_resource
-def load_my_model():
-    return load_model('my_model.keras')
+st.title("🐱🐶 Cat vs Dog Classifier")
 
-model = load_my_model()
+uploaded_file = st.file_uploader("Choose an image...", type=["jpg","jpeg","png"])
 
-uploaded_file = st.file_uploader("Upload an image", type=["jpg", "png"])
+if uploaded_file:
+    img = Image.open(uploaded_file).convert("RGB").resize((150,150))
+    st.image(img, caption="Uploaded Image", use_column_width=True)
 
-if uploaded_file is not None:
-    image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image", use_column_width=True)
+    # Prepare image for model
+    img_array = np.array(img)/255.0
+    img_array = np.expand_dims(img_array, axis=0)
 
-    # Preprocessing (adjust size if needed)
-    img = image.resize((150, 150))
-    img = np.array(img) / 255.0
-    img = np.expand_dims(img, axis=0)
+    # Predict
+    prediction = model.predict(img_array)
+    class_idx = np.argmax(prediction, axis=1)[0]
 
-    prediction = model.predict(img)
-
-    if prediction[0][0] > 0.5:
-        st.success("🐶 Dog")
-    else:
-        st.success("🐱 Cat")
-else:
-    st.warning("Please upload an image")
+    st.write(f"Prediction: **{classes[class_idx]}**")
