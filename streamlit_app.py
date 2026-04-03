@@ -9,7 +9,7 @@ import io
 st.set_page_config(page_title="New Cat vs Dog Classifier", layout="centered")
 
 # Title
-st.title("🐱 Cat vs Dog Classifier 🐶")
+st.title("🐱 New Cat vs Dog Classifier 🐶")
 st.write("Upload an image to classify whether it contains a cat or a dog!")
 
 # Load model (with caching to improve performance)
