@@ -6,7 +6,7 @@ from PIL import Image
 import io
 
 # Set page configuration
-st.set_page_config(page_title="Cat vs Dog Classifier", layout="centered")
+st.set_page_config(page_title="New Cat vs Dog Classifier", layout="centered")
 
 # Title
 st.title("🐱 Cat vs Dog Classifier 🐶")
