@@ -45,7 +45,7 @@ if uploaded_file is not None:
 
             # Predict
             pred = model.predict(img_array, verbose=0)
-            confidence = pred[0][0]
+            confidence = float(pred[0][0])
 
             # Get class
             class_idx = int(confidence > 0.5)
@@ -56,18 +56,18 @@ if uploaded_file is not None:
 
             # Show confidence
             if class_idx == 1:  # Dog
-                dog_confidence = confidence * 100
-                cat_confidence = (1 - confidence) * 100
+                dog_confidence = float(confidence * 100)
+                cat_confidence = float((1 - confidence) * 100)
             else:  # Cat
-                cat_confidence = (1 - confidence) * 100
-                dog_confidence = confidence * 100
+                cat_confidence = float((1 - confidence) * 100)
+                dog_confidence = float(confidence * 100)
 
             st.metric("Cat Confidence", f"{cat_confidence:.2f}%")
             st.metric("Dog Confidence", f"{dog_confidence:.2f}%")
 
             # Progress bar
             st.write("Prediction Confidence:")
-            st.progress(max(cat_confidence, dog_confidence) / 100)
+            st.progress(float(max(cat_confidence, dog_confidence) / 100))
 
         except Exception as e:
             st.error(f"Error during prediction: {str(e)}")
