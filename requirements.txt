@@ -1,4 +1,5 @@
-Flask
-tensorflow
+streamlit==1.28.0
+tensorflow==2.13.0
 numpy
 pillow
+keras
